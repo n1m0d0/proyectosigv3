@@ -187,7 +187,55 @@ class WizzardPerson extends Component
 
     public function updatePerson()
     {
-        $this->validate([
+        if ($this->discapacidad) {
+            $person = Person::find($this->person_id);
+            if($person->certificado_discapacidad != null){
+                $this->validate([
+                    'ci' => 'required',
+                    'expedido' => 'required',
+                    'genero' => 'required',
+                    'edad' => 'required|numeric',
+                    'nacimiento' => 'required|date',
+                    'departamento' => 'required',
+                    'direccion' => 'required',
+                    'hijos' => 'required',
+                    'estadoCivil' => 'required',
+                    'telefonoPersona' => 'required|numeric',
+                    'discapacidad' => 'required'
+                ]);
+            } else {
+                $this->validate([
+                    'ci' => 'required',
+                    'expedido' => 'required',
+                    'genero' => 'required',
+                    'edad' => 'required|numeric',
+                    'nacimiento' => 'required|date',
+                    'departamento' => 'required',
+                    'direccion' => 'required',
+                    'hijos' => 'required',
+                    'estadoCivil' => 'required',
+                    'telefonoPersona' => 'required|numeric',
+                    'tipoDiscapacidad' => 'required',
+                    'archivod' => 'required|mimes:jpg,bmp,png,pdf|max:5120'
+                ]);
+            } 
+        } else {
+            $this->validate([
+                'ci' => 'required',
+                'expedido' => 'required',
+                'genero' => 'required',
+                'edad' => 'required|numeric',
+                'nacimiento' => 'required|date',
+                'departamento' => 'required',
+                'direccion' => 'required',
+                'hijos' => 'required',
+                'estadoCivil' => 'required',
+                'telefonoPersona' => 'required|numeric',
+                'discapacidad' => 'required'
+            ]);
+        }
+
+        /*$this->validate([
             'ci' => 'required',
             'expedido' => 'required',
             'genero' => 'required',
@@ -200,7 +248,7 @@ class WizzardPerson extends Component
             'telefonoPersona' => 'required|numeric'
         ]);
 
-        /*$person = Person::find($this->person_id);
+        $person = Person::find($this->person_id);
         $person->ci = $this->ci;
         $person->expedido = $this->expedido;
         $person->genero = $this->genero;
