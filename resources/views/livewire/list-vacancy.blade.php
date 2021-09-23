@@ -205,6 +205,8 @@
                 </table>
                 {{ $people->links() }}
             </div>
+            <a class="btn btn-outline-primary py-3 px-4 xl:w-80 mt-3 xl:mt-2 align-left"
+            href="{{ route('page.dashboard') }}">Finalizar</a>
         </div>
     @endif
     @if ($ventana == 3)
@@ -253,7 +255,8 @@
                     </tbody>
                 </table>
             </div>
-
+            <a class="btn btn-outline-primary py-3 px-4 xl:w-80 mt-3 xl:mt-2 align-left"
+            href="{{ route('page.dashboard') }}">Finalizar</a>
         </div>
     @endif
 </div>

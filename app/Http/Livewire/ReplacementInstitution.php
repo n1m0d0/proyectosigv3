@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Contract;
 use App\Models\Replacement;
+use App\Models\Validation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -18,6 +19,10 @@ class ReplacementInstitution extends Component
     public $monto;
     public $archivoC31;
     public $official_id;
+    public $contractId;
+    public $boleta;
+    public $afp;
+    public $cnb;
 
     public function mount()
     {
@@ -28,6 +33,9 @@ class ReplacementInstitution extends Component
     {
         if ($this->contract_id != null) {
             $this->ventana = 2;
+        }
+        if ($this->contractId != null) {
+            $this->ventana = 3;
         }
         $contracts = Contract::where('estado', "ACTIVO")->get();
         return view('livewire.replacement-institution', compact('contracts'));
@@ -63,6 +71,37 @@ class ReplacementInstitution extends Component
     public function clearReplacement()
     {
         $this->ventana = 1;
-        $this->reset(['contract_id', 'fechaInicio', 'fechaFin', 'monto', 'archivoC31']); 
+        $this->reset(['contract_id', 'fechaInicio', 'fechaFin', 'monto', 'archivoC31']);
+    }
+
+    public function saveValidation()
+    {
+        $this->validate([
+            'boleta' => 'required',
+            'afp' => 'required',
+            'cnb' => 'required'
+        ]);
+
+        if ($this->boleta == 0 || $this->afp == 0 || $this->cnb == 0) {
+            session()->flash('alert', 'No cumple con la documentacion necesaria.');
+        } else {
+            $validation = new Validation();
+            $validation->contract_id = $this->contractId;
+            $validation->boleta = $this->boleta;
+            $validation->afp = $this->afp;
+            $validation->cnb = $this->cnb;
+            $validation->estado = "VALIDADO";
+            $validation->save();
+
+            session()->flash('message', 'Los datos se guardaron correctamente.');
+        }
+
+        $this->clearValidationForm();
+    }
+
+    public function clearValidationForm()
+    {
+        $this->ventana = 1;
+        $this->reset(['contractId', 'boleta', 'afp', 'cnb']);
     }
 }

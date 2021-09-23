@@ -33,4 +33,9 @@ class Contract extends Model
     {
         return $this->hasOne(Replacement::class);
     }
+
+    public function validation()
+    {
+        return $this->hasOne(Validation::class);
+    }
 }

@@ -46,13 +46,16 @@
                                     </span>
                                 </td>
                                 <td class="border-b dark:border-dark-5">
-                                    <!--<div class="form-check">
-                                        <input  class="form-check-switch" type="checkbox"
+                                    @if ($contract->validation != true)
+                                    <div class="form-check">
+                                        <input wire:model='contractId' class="form-check-switch" type="checkbox"
                                             value="{{ $contract->id }}">
                                         <label class="form-check-label">
                                             Verificacion
                                         </label>
-                                    </div> -->
+                                    </div>
+                                    @endif
+                                    @if ($contract->validation != null)
                                     <div class="form-check">
                                         <input wire:model='contract_id' class="form-check-switch" type="checkbox"
                                             value="{{ $contract->id }}">
@@ -60,6 +63,7 @@
                                             Registrar Reposicion
                                         </label>
                                     </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -94,5 +98,58 @@
                 </div>
             </form>
         </div>
+        <a class="btn btn-outline-primary py-3 px-4 xl:w-80 mt-3 xl:mt-2 align-left"
+            href="{{ route('page.dashboard') }}">Finalizar</a>
+    @endif
+    @if ($ventana == 3)
+        <div class="box py-8 px-6 mt-2">
+            <form wire:submit.prevent='saveValidation' enctype="multipart/form-data"
+                class="grid grid-cols-12 gap-2 items-center">
+                <div class="col-span-12 sm:col-span-3">
+                    <label>Boleta de Pago</label>
+                    <div class="flex flex-col sm:flex-row mt-2">
+                        <div class="form-check mr-2">
+                            <input wire:model="boleta" class="form-check-input" type="radio" name="boletaSi" value="1">
+                            <label class="form-check-label">Si</label>
+                        </div>
+                        <div class="form-check mr-2 mt-2 sm:mt-0">
+                            <input wire:model="boleta" class="form-check-input" type="radio" name="BoletaNo" value="0">
+                            <label class="form-check-label">No</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <label>AFP</label>
+                    <div class="flex flex-col sm:flex-row mt-2">
+                        <div class="form-check mr-2">
+                            <input wire:model="afp" class="form-check-input" type="radio" name="afpSi" value="1">
+                            <label class="form-check-label">Si</label>
+                        </div>
+                        <div class="form-check mr-2 mt-2 sm:mt-0">
+                            <input wire:model="afp" class="form-check-input" type="radio" name="afpNo" value="0">
+                            <label class="form-check-label">No</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <label>CNB</label>
+                    <div class="flex flex-col sm:flex-row mt-2">
+                        <div class="form-check mr-2">
+                            <input wire:model="cnb" class="form-check-input" type="radio" name="cnbSi" value="1">
+                            <label class="form-check-label">Si</label>
+                        </div>
+                        <div class="form-check mr-2 mt-2 sm:mt-0">
+                            <input wire:model="cnb" class="form-check-input" type="radio" name="cnbNo" value="0">
+                            <label class="form-check-label">No</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-3 pt-6">
+                    <button type="submit" class="btn btn-secondary">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <a class="btn btn-outline-primary py-3 px-4 xl:w-80 mt-3 xl:mt-2 align-left"
+            href="{{ route('page.dashboard') }}">Finalizar</a>
     @endif
 </div>

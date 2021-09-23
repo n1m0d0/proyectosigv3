@@ -19,7 +19,10 @@ class CreateValidationsTable extends Migration
             $table->boolean('boleta')->default(0);
             $table->boolean('afp')->default(0);
             $table->boolean('cnb')->default(0);
+            $table->string('estado');
             $table->timestamps();
+
+            $table->foreign('contract_id')->references('id')->on('contracts');
         });
     }
 
