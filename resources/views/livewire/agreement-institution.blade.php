@@ -76,7 +76,7 @@
                                 <br>
                                 {{ $agreement->institution->razon_social }}
                             </td>
-                            <td class="border-b dark:border-dark-5">{{ $agreement->fecha_convenio }}</td>
+                            <td class="border-b dark:border-dark-5">{{ Carbon\Carbon::parse($agreement->fecha_convenio)->format('d-m-Y') }}</td>
                             <td class="border-b dark:border-dark-5">
                                 <a class="flex cursor-pointer" wire:click="downloadAgreement({{ $agreement->id }})">
                                     <x-feathericon-hard-drive class="w-4 h-4 mr-2" /> Descargar
@@ -88,7 +88,7 @@
                                 <a class="flex cursor-pointer text-theme-6 mr-2"
                                     wire:click="softDeleteAgreement({{ $agreement->id }})">
                                     @if ($agreement->estado == 'ACTIVO')
-                                        <x-feathericon-trash class="w-4 h-4 mr-1" /> Baja
+                                        <x-feathericon-trash class="w-4 h-4 mr-1" />Dar de Baja
                                     @endif
                                 </a>
                             </td>

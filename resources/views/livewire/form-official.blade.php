@@ -30,11 +30,11 @@
         <table class="table">
             <thead>
                 <tr class="bg-gray-700 dark:bg-dark-1 text-white">
-                    <th class="whitespace-nowrap">#</th>
-                    <th class="whitespace-nowrap">Nombre Completo</th>
-                    <th class="whitespace-nowrap">Correo</th>
-                    <th class="whitespace-nowrap">Estado</th>
-                    <th class="whitespace-nowrap">Acciones</th>
+                    <th class="whitespace-nowrap uppercase">#</th>
+                    <th class="whitespace-nowrap uppercase">Nombre Completo</th>
+                    <th class="whitespace-nowrap uppercase">Correo</th>
+                    <th class="whitespace-nowrap uppercase">Estado</th>
+                    <th class="whitespace-nowrap uppercase">Acciones</th>
                 </tr>
             </thead>
             <tbody>

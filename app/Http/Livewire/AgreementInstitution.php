@@ -46,7 +46,7 @@ class AgreementInstitution extends Component
                 $agreements = Agreement::all();
             }
         }
-        $institutions = Institution::where('estado', 'REGISTRADO')->get();
+        $institutions = Institution::all();
         return view('livewire.agreement-institution', compact('agreements', 'institutions'));
     }
 

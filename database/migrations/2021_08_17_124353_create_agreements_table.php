@@ -17,7 +17,9 @@ class CreateAgreementsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('institution_id');
             $table->date('fecha_convenio');
-            $table->string('convenio');           
+            $table->date('fin_convenio');
+            $table->string('convenio');
+            $table->string('detalle');           
             $table->string('estado')->default("ACTIVO");
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

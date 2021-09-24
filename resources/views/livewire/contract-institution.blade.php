@@ -42,6 +42,17 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <!--
+                                    <div class="mt-2">
+                                        <div class="form-check">
+                                            <input wire:model='vacanciaId' class="form-check-switch" type="checkbox"
+                                                value="{{ $vacancy->id }}">
+                                            <label class="form-check-label">
+                                                Liberar
+                                            </label>
+                                        </div>
+                                    </div>
+                                -->
                                 </td>
                             </tr>
                         @endforeach

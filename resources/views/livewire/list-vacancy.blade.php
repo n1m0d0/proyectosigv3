@@ -8,11 +8,12 @@
                 <table class="table">
                     <thead>
                         <tr class="bg-gray-700 dark:bg-dark-1 text-white">
-                            <th class="whitespace-nowrap">#</th>
-                            <th class="whitespace-nowrap">Entidad economica</th>
-                            <th class="whitespace-nowrap">Denominación del cargo</th>
-                            <th class="whitespace-nowrap">Personal requerido</th>
-                            <th class="whitespace-nowrap">Acciones</th>
+                            <th class="whitespace-nowrap uppercase">#</th>
+                            <th class="whitespace-nowrap uppercase">Entidad Económica</th>
+                            <th class="whitespace-nowrap uppercase">Departamento</th>
+                            <th class="whitespace-nowrap uppercase">Denominación del Cargo</th>
+                            <th class="whitespace-nowrap uppercase">Personal Requerido</th>
+                            <th class="whitespace-nowrap uppercase">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,6 +26,9 @@
                                     <span class="text-gray-600">
                                         {{ $vacancy->institution->razon_social }}
                                     </span>
+                                </td>
+                                <td class="border-b dark:border-dark-5">
+                                    {{ $vacancy->branch->department->nombre }}
                                 </td>
                                 <td class="border-b dark:border-dark-5">
                                     {{ $vacancy->nombre }}
