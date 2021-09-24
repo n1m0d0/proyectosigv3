@@ -15,27 +15,21 @@ class AuthController extends Controller
         ])) {
             $request->session()->regenerate();
 
-            if(auth()->user()->activation == 1) {
-                if(auth()->user()->person_id != null)
-                {
+            if (auth()->user()->activation == 1) {
+                if (auth()->user()->person_id != null) {
                     return redirect()->route('data.person');
-                } else {
-                    if(auth()->user()->institution_id != null)
-                    {
-                        return redirect()->route('data.institution');
-                    } else {
-                        if(auth()->user()->official_id != null)
-                        {
-                            return redirect()->route('page.dashboard');
-                        }
-                    }
+                }
+                if (auth()->user()->institution_id != null) {
+                    return redirect()->route('data.institution');
+                }
+                if (auth()->user()->official_id != null) {
+                    return redirect()->route('page.dashboard');
                 }
                 //return redirect()->intended('dashboard');
             }
             return back()->withErrors([
                 'email' => 'Cuenta no activada',
-            ]); 
-
+            ]);
         }
 
         return back()->withErrors([
