@@ -100,7 +100,7 @@
     @endrole
     @role('responsable')
     <li>
-        <a href="{{ route('vacancy.institution') }}" class="side-menu">
+        <a href="{{ route('assignment.official') }}" class="side-menu">
             <div class="side-menu__icon"> <i data-feather="book"></i> </div>
             <div class="side-menu__title"> Asignacion </div>
         </a>

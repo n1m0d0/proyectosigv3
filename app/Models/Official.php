@@ -19,4 +19,9 @@ class Official extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }

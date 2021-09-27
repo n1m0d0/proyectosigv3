@@ -2,12 +2,56 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Assignment;
+use App\Models\Institution;
+use App\Models\Official;
 use Livewire\Component;
 
 class AssignmentOfficial extends Component
 {
+    public $ventana = 1;
+    public $official_id;
+    public $institution_id;
+
+    public function mount()
+    {
+    }
+
     public function render()
     {
-        return view('livewire.assignment-official');
+        if ($this->official_id != null) {
+            $this->ventana = 2;
+        }
+        $officials = Official::all();
+        $institutions = Institution::where('estado', "REGISTRADO")->get();
+        return view('livewire.assignment-official', compact('officials', 'institutions'));
+    }
+
+    public function addAssignment()
+    {
+        $this->validate([
+            'institution' => 'required',
+        ]);
+
+        $assignment = new Assignment();
+        $assignment->official_id = $this->official_id;
+        $assignment->institution_id = $this->institution_id;
+        $assignment->user_id = auth()->user()->id;
+        $assignment->save();
+
+        $this->defaultAssignment();
+    }
+
+    public function defaultAssignment()
+    {
+        $this->reset(['institution']);
+        $this->ventana = 1;
+    }
+
+    public function softdeletedAssignment($id)
+    {
+        $assignment = Assignment::find($id);
+        $assignment->estado = 'INACTIVO';
+        $assignment->save();
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\GeneralListController;
 use App\Http\Controllers\AbilityPersonController;
 use App\Http\Controllers\RegisterPersonController;
 use App\Http\Controllers\RegisterOfficialController;
+use App\Http\Controllers\AssignmentOfficialController;
 use App\Http\Controllers\VacancyInstitutionController;
 use App\Http\Controllers\ContractInstitutionController;
 use App\Http\Controllers\RegisterInstitutionController;
@@ -49,3 +50,5 @@ Route::get('reposiciones', [ReplacementInstitutionController::class, "index"])->
 
 Route::get('registro-oficial', [RegisterOfficialController::class, "index"])->name('form.official')->middleware(['auth', 'role:admin']);
 Route::get('reporte-persona', [PersonController::class, "index"])->name('report.person')->middleware(['auth', 'role:admin']);
+
+Route::get('adignacion-oficial', [AssignmentOfficialController::class, "index"])->name('assignment.official')->middleware(['auth', 'role:responsable']);

@@ -66,11 +66,14 @@ class FormOfficial extends Component
     public function softDeleteOfficial($id)
     {
         $user = User::where('official_id', $id)->first();
+        $official = Official::find($id);
         if ($user->id == 1) {
             session()->flash('alert', 'No se puede eliminar al administrador.');
         } else {
             $user->activation = 0;
             $user->save();
+            $official->estado = "INACTIVO";
+            $official->save();
             session()->flash('message', 'Los datos se guardaron correctamente.');
         }
     }
@@ -78,8 +81,11 @@ class FormOfficial extends Component
     public function activateOfficial($id)
     {
         $user = User::where('official_id', $id)->first();
+        $official = Official::find($id);
         $user->activation = 1;
         $user->save();
+        $official->estado = "INACTIVO";
+        $official->save();
         session()->flash('message', 'Los datos se guardaron correctamente.');
     }
 

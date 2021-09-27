@@ -43,4 +43,9 @@ class Institution extends Model
     {
         return $this->hasMany(Contract::class);
     }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }

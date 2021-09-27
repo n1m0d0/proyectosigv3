@@ -16,11 +16,14 @@ class CreateAssignmentsTable extends Migration
         Schema::create('assignments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('official_id');
-            $table->unsignedBigInteger('department_id');
+            $table->unsignedBigInteger('institution_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('estado')->default('ACTIVO');
             $table->timestamps();
 
             $table->foreign('official_id')->references('id')->on('officials');
-            $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('institution_id')->references('id')->on('institutions');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
