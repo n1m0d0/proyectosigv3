@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Agreement;
+use App\Models\Assignment;
 use App\Models\Institution;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,72 +15,65 @@ class AgreementInstitution extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $searchInstitution;
-    public $searchDate;
-    public $searchState;
-    public $institution;
+    public $ventana = 1;
     public $fechaConvenio;
+    public $finConvenio;
     public $archivoConvenio;
     public $usuario;
+    public $official_id;
+    public $institution_id;
+    public $detalle;
 
     public function mount()
     {
         $this->usuario = auth()->user()->id;
+        $this->official_id = auth()->user()->official_id;
     }
 
     public function render()
     {
-        if ($this->searchInstitution) {
-            if ($this->searchDate) {
-                $agreements = Agreement::where('institution_id', $this->searchInstitution)->where('fecha_convenio', $this->searchDate)->get();
-            } else {
-                $agreements = Agreement::where('institution_id', $this->searchInstitution)->get();
-            }
-        } else {
-            if ($this->searchDate) {
-                if ($this->searchInstitution) {
-                    $agreements = Agreement::where('institution_id', $this->searchInstitution)->where('fecha_convenio', $this->searchDate)->get();
-                } else {
-                    $agreements = Agreement::where('fecha_convenio', $this->searchDate)->get();
-                }
-            } else {
-                $agreements = Agreement::all();
-            }
+        $assignments = Assignment::where('official_id', $this->official_id)->where('estado', "ACTIVO")->get();
+        if($this->institution_id != null) {
+            $this->ventana = 2;
         }
-        $institutions = Institution::all();
-        return view('livewire.agreement-institution', compact('agreements', 'institutions'));
+        return view('livewire.agreement-institution', compact('assignments'));
     }
 
     public function createAgreement()
     {
         $this->validate([
-            'institution' => 'required',
             'fechaConvenio' => 'required|date',
+            'finConvenio' => 'required|date',
+            'detalle' => 'required',
             'archivoConvenio' => 'required|mimes:jpg,bmp,png,pdf|max:5120'
         ]);
 
         $agreement = new Agreement();
-        $agreement->institution_id = $this->institution;
-        $agreement->fecha_convenio = $this->fechaConvenio;
+        $agreement->institution_id = $this->institution_id;
+        $agreement->fecha_convenio = $this->fechaConvenio;        
+        $agreement->fin_convenio = $this->finConvenio;      
+        $agreement->detalle = $this->detalle;
         $agreement->convenio = $this->archivoConvenio->store('public');
         $agreement->user_id = $this->usuario;
         $agreement->save();
 
-        $institution = Institution::find($this->institution);
+        $institution = Institution::find($this->institution_id);
         $institution->estado = "ACTIVO";
         $institution->save();
 
         session()->flash('message', 'Los datos se guardaron correctamente.');
 
         $this->defaultAgreement();
+
+        $this->ventana = 1;
     }
 
     public function defaultAgreement()
     {
-        $this->reset(['institution', 'fechaConvenio', 'archivoConvenio']);
+        $this->reset(['institution_id', 'fechaConvenio', 'archivoConvenio']);
     }
 
-    public function downloadAgreement($id)
+    /*public function downloadAgreement($id)
     {
         $agreement = Agreement::find($id);
         return Storage::download($agreement->convenio);
@@ -101,5 +95,5 @@ class AgreementInstitution extends Component
     public function defaultFilters()
     {
         $this->reset(['searchInstitution', 'searchDate', 'searchState']);
-    }
+    }*/
 }

@@ -18,4 +18,9 @@ class Assignment extends Model
     {
         return $this->belongsTo(Institution::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

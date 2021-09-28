@@ -66,6 +66,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Official::class);
     }
 
+    public function assignments()
+    {
+        return $this->belongsTo(Assignment::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

@@ -6,9 +6,12 @@ use App\Models\Assignment;
 use App\Models\Institution;
 use App\Models\Official;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class AssignmentOfficial extends Component
 {
+    use WithPagination;
+
     public $ventana = 1;
     public $official_id;
     public $institution_id;
@@ -19,18 +22,22 @@ class AssignmentOfficial extends Component
 
     public function render()
     {
+        $assignments = Assignment::query();
+        $assignments = $assignments->where('estado', 'ACTIVO');
         if ($this->official_id != null) {
             $this->ventana = 2;
+            $assignments = $assignments->where('official_id', $this->official_id);
         }
+        $assignments = $assignments->get();
         $officials = Official::all();
         $institutions = Institution::where('estado', "REGISTRADO")->get();
-        return view('livewire.assignment-official', compact('officials', 'institutions'));
+        return view('livewire.assignment-official', compact('officials', 'institutions', 'assignments'));
     }
 
     public function addAssignment()
     {
         $this->validate([
-            'institution' => 'required',
+            'institution_id' => 'required',
         ]);
 
         $assignment = new Assignment();
@@ -44,7 +51,7 @@ class AssignmentOfficial extends Component
 
     public function defaultAssignment()
     {
-        $this->reset(['institution']);
+        $this->reset(['institution_id']);
         $this->ventana = 1;
     }
 
