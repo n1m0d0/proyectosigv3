@@ -31,3 +31,10 @@
 @section('script')
     @livewireScripts
 @endsection
+@push('script')
+<script type="text/javascript">
+    window.livewire.on('hola', () => {
+        console.log("prueba", "hola prueba")
+    });
+</script>
+@endpush
