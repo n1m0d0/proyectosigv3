@@ -17,6 +17,7 @@ class FormOfficial extends Component
     public $paterno;
     public $materno;
     public $correo;
+    public $rolleOfficial;
 
     public function render()
     {
@@ -29,7 +30,8 @@ class FormOfficial extends Component
         $this->validate([
             'nombres' => 'required',
             'paterno' => 'required',
-            'materno' => 'required',
+            'materno' => 'required',            
+            'rolleOfficial' => 'required',
             'correo' => 'required|email'
         ]);
 
@@ -51,7 +53,7 @@ class FormOfficial extends Component
             $user->activation = 1;
             $user->save();
 
-            $user->assignRole('oficial');
+            $user->assignRole($this->rolleOfficial);
         } catch (\Exception $e) {
             DB::rollback();
         }

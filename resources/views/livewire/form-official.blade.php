@@ -20,6 +20,15 @@
                 <label class="form-label">Correo</label>
                 <input wire:model='correo' type="text" class="form-control" placeholder="micorreo@gmail.com">
             </div>
+            <div class="col-span-12 sm:col-span-3">
+                <label class="form-label">Rol</label>
+                <select wire:model="rolleOfficial" class="form-select">
+                    <option value="">Seleccione un opcion</option>
+                    <option value="oficial">Oficial Operativo</option>
+                    <option value="responsable">Responsable Técnico Administrativo</option>
+                    <option value="fiduciario">Fiduciario</option>
+                </select>
+            </div>
             <div class="col-span-12 sm:col-span-3 pt-6">
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
@@ -33,6 +42,7 @@
                     <th class="whitespace-nowrap uppercase">#</th>
                     <th class="whitespace-nowrap uppercase">Nombre Completo</th>
                     <th class="whitespace-nowrap uppercase">Correo</th>
+                    <th class="whitespace-nowrap uppercase">Rol</th>
                     <th class="whitespace-nowrap uppercase">Estado</th>
                     <th class="whitespace-nowrap uppercase">Acciones</th>
                 </tr>
@@ -41,9 +51,10 @@
                 @foreach ($officials as $official)
                     <tr>
                         <td class="border-b dark:border-dark-5">{{ $official->id }}</td>
-                        <td class="border-b dark:border-dark-5">{{ $official->nombres }}
+                        <td class="border-b dark:border-dark-5 uppercase">{{ $official->nombres }}
                             {{ $official->paterno }} {{ $official->materno }}</td>
                         <td class="border-b dark:border-dark-5">{{ $official->user->email }}</td>
+                        <td class="border-b dark:border-dark-5 uppercase">{{ $official->user->getRoleNames()[0] }}</td>
                         <td class="border-b dark:border-dark-5">
                             @if ($official->user->activation == 1)
                                 ACTIVO
@@ -56,14 +67,14 @@
                                 @if ($official->user->id != 1)
                                     <a class="flex cursor-pointer text-theme-6 mr-2"
                                         wire:click="softDeleteOfficial({{ $official->id }})">
-                                        <x-feathericon-trash class="w-4 h-4 mr-1" /> Baja
+                                        <x-feathericon-trash class="w-4 h-4 mr-1" />Dar de Baja
                                     </a>
                                 @endif
                             @else
                                 @if ($official->user->id != 1)
                                     <a class="flex cursor-pointer text-theme-9 mr-2"
                                         wire:click="activateOfficial({{ $official->id }})">
-                                        <x-feathericon-power class="w-4 h-4 mr-1" /> Alta
+                                        <x-feathericon-power class="w-4 h-4 mr-1" />Dar de Alta
                                     </a>
                                 @endif
                             @endif
