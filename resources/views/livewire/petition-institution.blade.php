@@ -1,0 +1,139 @@
+<div>
+    @if ($ventana == 1)
+        <div class="box py-8 px-6">
+            <form wire:submit.prevent='createdPetition' enctype="multipart/form-data"
+                class="grid grid-cols-12 gap-2 items-center">
+                <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Titulo</label>
+                    <input wire:model='titulo' type="text" class="form-control" placeholder="Reposición de enero">
+                </div>
+                <div class="col-span-12 sm:col-span-3 pt-6">
+                    <button type="submit" class="btn btn-secondary">Crear</button>
+                </div>
+            </form>
+        </div>
+        <div class="box py-8 px-6">
+            <div class="overflow-x-auto pt-4">
+                <table class="table">
+                    <thead>
+                        <tr class="bg-gray-700 dark:bg-dark-1 text-white">
+                            <th class="whitespace-nowrap">#</th>
+                            <th class="whitespace-nowrap">titulo</th>
+                            <th class="whitespace-nowrap">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($petitions as $petition)
+                            <tr>
+                                <td class="border-b dark:border-dark-5">{{ $petition->id }}</td>
+                                <td class="border-b dark:border-dark-5 uppercase">{{ $petition->titulo }}</td>
+                                <td class="border-b dark:border-dark-5">
+                                    <div class="mt-2">
+                                        <div class="form-check">
+                                            <input wire:model='petition_id' class="form-check-switch" type="checkbox"
+                                                value="{{ $petition->id }}">
+                                            <label class="form-check-label">
+                                                Registrar Beneficiarios
+                                            </label>
+                                            <a class="flex cursor-pointer text-theme-6 mr-2 ml-4"
+                                                wire:click="softDeletePetition({{ $petition->id }})">
+                                                <x-feathericon-trash class="w-4 h-4 mr-1" />Dar de Baja
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $petitions->links() }}
+            </div>
+        </div>
+    @endif
+    @if ($ventana == 2)
+        <div class="box py-8 px-6">
+            <form wire:submit.prevent='addForm' enctype="multipart/form-data"
+                class="grid grid-cols-12 gap-2 items-center">
+                <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Departamento</label>
+                    <select wire:model="contract_id" class="form-select uppercase">
+                        <option value="">Seleccione un opcion</option>
+                        @foreach ($contracts as $contract)
+                            <option value="{{ $contract->id }}">{{ $contract->person->nombres }}
+                                {{ $contract->person->paterno }} {{ $contract->person->materno }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Fecha de Inicio de contrato</label>
+                    <input wire:model='fechaInicio' type="date" class="form-control">
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Dias Cotizados</label>
+                    <input wire:model='dias' type="number" class="form-control">
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Descuentos</label>
+                    <input wire:model='descuentos' type="number" class="form-control">
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Bonificaciones</label>
+                    <input wire:model='bonificaciones' type="number" class="form-control">
+                </div>
+                <div class="col-span-12 sm:col-span-3 pt-6">
+                    <button type="submit" class="btn btn-secondary">Guardar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="box py-8 px-6">
+            <div class="overflow-x-auto pt-4">
+                <table class="table">
+                    <thead>
+                        <tr class="bg-gray-700 dark:bg-dark-1 text-white">
+                            <th class="whitespace-nowrap uppercase">#</th>
+                            <th class="whitespace-nowrap uppercase">Nombre del Beneficiario</th>
+                            <th class="whitespace-nowrap uppercase">Ci del Beneficiario</th>
+                            <th class="whitespace-nowrap uppercase">Fecha inicio de contrato</th>
+                            <th class="whitespace-nowrap uppercase">dias</th>
+                            <th class="whitespace-nowrap uppercase">Salario</th>
+                            <th class="whitespace-nowrap uppercase">Descuentos</th>
+                            <th class="whitespace-nowrap uppercase">Bonificaciones</th>
+                            <th class="whitespace-nowrap uppercase">paquete</th>
+                            <th class="whitespace-nowrap uppercase">total Ganado</th>
+                            <th class="whitespace-nowrap uppercase">total Reposicion</th>
+                            <th class="whitespace-nowrap uppercase">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($forms as $form)
+                            <tr>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->id }}</td>
+                                <td class="border-b dark:border-dark-5 text-center uppercase">
+                                    {{ $form->contract->person->nombres }} {{ $form->contract->person->paterno }}
+                                    {{ $form->contract->person->materno }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->contract->person->ci }} {{ $form->contract->person->expedido }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->fecha_inicio }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->dias }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->contract->vacancy->salario }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->descuentos }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->bonificaciones }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">
+                                    {{ $form->contract->package->porcentaje }} %
+                                    <br>
+                                    {{ $form->contract->package->nombre }}
+                                </td>
+                                <td class="border-b dark:border-dark-5 text-center">
+                                   {{ round($form->contract->vacancy->salario / 30 *  $form->dias, 2) }}  Bs
+                                </td>
+                                <td class="border-b dark:border-dark-5 text-center">
+                                    {{ round((($form->contract->vacancy->salario / 30) *  $form->dias) * ($form->contract->package->porcentaje / 100), 2) }}  Bs
+                                 </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+</div>

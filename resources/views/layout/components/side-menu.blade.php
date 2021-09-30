@@ -96,6 +96,12 @@
                 <div class="side-menu__title"> Vacancias </div>
             </a>
         </li>
+        <li>
+            <a href="{{ route('petition.institution') }}" class="side-menu">
+                <div class="side-menu__icon"> <i data-feather="book"></i> </div>
+                <div class="side-menu__title"> Reposiciones </div>
+            </a>
+        </li>
     @endif
     @endrole
     @role('responsable')

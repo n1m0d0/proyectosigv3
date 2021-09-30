@@ -10,6 +10,7 @@ use App\Http\Controllers\RegisterOfficialController;
 use App\Http\Controllers\AssignmentOfficialController;
 use App\Http\Controllers\VacancyInstitutionController;
 use App\Http\Controllers\ContractInstitutionController;
+use App\Http\Controllers\PetitionInstitutionController;
 use App\Http\Controllers\RegisterInstitutionController;
 use App\Http\Controllers\AgreementInstitutionController;
 use App\Http\Controllers\ReplacementInstitutionController;
@@ -52,3 +53,5 @@ Route::get('registro-oficial', [RegisterOfficialController::class, "index"])->na
 Route::get('reporte-persona', [PersonController::class, "index"])->name('report.person')->middleware(['auth', 'role:admin']);
 
 Route::get('adignacion-oficial', [AssignmentOfficialController::class, "index"])->name('assignment.official')->middleware(['auth', 'role:responsable']);
+
+Route::get('solicitud', [PetitionInstitutionController::class, "index"])->name('petition.institution')->middleware(['auth', 'role:empresa']);

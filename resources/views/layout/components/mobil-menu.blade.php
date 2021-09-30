@@ -90,12 +90,20 @@
             <div class="menu__title"> Registro </div>
         </a>
     </li>
-    <li>
-        <a href="{{ route('vacancy.institution') }}" class="menu">
-            <div class="menu__icon"> <i data-feather="edit"></i> </div>
-            <div class="menu__title"> Vacancia </div>
-        </a>
-    </li>
+    @if (auth()->user()->institution->estado == 'ACTIVO')
+        <li>
+            <a href="{{ route('vacancy.institution') }}" class="menu">
+                <div class="menu__icon"> <i data-feather="book"></i> </div>
+                <div class="menu__title"> Vacancias </div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('petition.institution') }}" class="menu">
+                <div class="menu__icon"> <i data-feather="book"></i> </div>
+                <div class="menu__title"> Reposiciones </div>
+            </a>
+        </li>
+    @endif
     @endrole
     @role('responsable')
     <li>

@@ -38,4 +38,9 @@ class Contract extends Model
     {
         return $this->hasOne(Validation::class);
     }
+
+    public function forms()
+    {
+        return $this->hasMany(Form::class);
+    }
 }
