@@ -17,7 +17,6 @@ class CreateFormsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('petition_id');
             $table->unsignedBigInteger('contract_id');
-            $table->date('fecha_inicio');
             $table->integer('dias');
             $table->float('descuentos', 10, 2);
             $table->float('bonificaciones', 10, 2);

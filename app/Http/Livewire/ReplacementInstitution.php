@@ -3,16 +3,24 @@
 namespace App\Http\Livewire;
 
 use App\Models\Contract;
+use App\Models\Petition;
 use App\Models\Replacement;
 use App\Models\Validation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class ReplacementInstitution extends Component
 {
     use WithFileUploads;
+    use WithPagination;
 
     public $ventana = 1;
+    public $petition_id;
+    public $petition;
+    public $suma;
+
+    /*public $ventana = 1;
     public $contract_id;
     public $fechaInicio;
     public $fechaFin;
@@ -103,5 +111,22 @@ class ReplacementInstitution extends Component
     {
         $this->ventana = 1;
         $this->reset(['contractId', 'boleta', 'afp', 'cnb']);
+    }*/
+
+    public function render()
+    {
+        if ($this->petition_id != null) {
+            $this->ventana = 2;
+            $this->petition = Petition::find($this->petition_id);
+            foreach ($this->petition->forms as $form) {
+                if ($form->contract->vacancy->salario > 4000) {
+                    $this->suma = $this->suma + round((4000 / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2);
+                } else {
+                    $this->suma = $this->suma + round(($form->contract->vacancy->salario / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2);
+                }
+            }
+        }
+        $petitions = Petition::where('estado', 'ENVIADO')->paginate(10);
+        return view('livewire.replacement-institution', compact('petitions'));
     }
 }

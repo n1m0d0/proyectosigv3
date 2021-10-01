@@ -1,4 +1,6 @@
 <div>
+    @include('layout.partials.errors')
+    @include('layout.partials.flashMessage')
     @if ($ventana == 1)
         <div class="box py-8 px-6">
             <form wire:submit.prevent='createdPetition' enctype="multipart/form-data"
@@ -12,7 +14,8 @@
                 </div>
             </form>
         </div>
-        <div class="box py-8 px-6">
+
+        <div class="box py-8 px-6 mt-4">
             <div class="overflow-x-auto pt-4">
                 <table class="table">
                     <thead>
@@ -35,9 +38,13 @@
                                             <label class="form-check-label">
                                                 Registrar Beneficiarios
                                             </label>
+                                            <a class="flex cursor-pointer text-theme-9 mr-2 ml-4"
+                                                wire:click="sendPetition({{ $petition->id }})">
+                                                <x-feathericon-send class="w-4 h-4 mr-1" />Enviar
+                                            </a>
                                             <a class="flex cursor-pointer text-theme-6 mr-2 ml-4"
                                                 wire:click="softDeletePetition({{ $petition->id }})">
-                                                <x-feathericon-trash class="w-4 h-4 mr-1" />Dar de Baja
+                                                <x-feathericon-trash class="w-4 h-4 mr-1" />Eliminar
                                             </a>
                                         </div>
                                     </div>
@@ -55,7 +62,7 @@
             <form wire:submit.prevent='addForm' enctype="multipart/form-data"
                 class="grid grid-cols-12 gap-2 items-center">
                 <div class="col-span-12 sm:col-span-3">
-                    <label class="form-label">Departamento</label>
+                    <label class="form-label">Beneficiario</label>
                     <select wire:model="contract_id" class="form-select uppercase">
                         <option value="">Seleccione un opcion</option>
                         @foreach ($contracts as $contract)
@@ -65,20 +72,16 @@
                     </select>
                 </div>
                 <div class="col-span-12 sm:col-span-3">
-                    <label class="form-label">Fecha de Inicio de contrato</label>
-                    <input wire:model='fechaInicio' type="date" class="form-control">
-                </div>
-                <div class="col-span-12 sm:col-span-3">
                     <label class="form-label">Dias Cotizados</label>
                     <input wire:model='dias' type="number" class="form-control">
                 </div>
                 <div class="col-span-12 sm:col-span-3">
                     <label class="form-label">Descuentos</label>
-                    <input wire:model='descuentos' type="number" class="form-control">
+                    <input wire:model='descuentos' type="number" step="0.01" class="form-control">
                 </div>
                 <div class="col-span-12 sm:col-span-3">
                     <label class="form-label">Bonificaciones</label>
-                    <input wire:model='bonificaciones' type="number" class="form-control">
+                    <input wire:model='bonificaciones' type="number" step="0.01" class="form-control">
                 </div>
                 <div class="col-span-12 sm:col-span-3 pt-6">
                     <button type="submit" class="btn btn-secondary">Guardar</button>
@@ -86,7 +89,12 @@
             </form>
         </div>
 
-        <div class="box py-8 px-6">
+        <div class="box py-8 px-6 mt-4">
+            <div class="col-span-12 sm:col-span-3 pt-6">
+                <button wire:click='exportExcel' class="btn btn-secondary">
+                    <x-feathericon-file-text class="w-4 h-4 mr-1" /> Exportar Excel
+                </button>
+            </div>
             <div class="overflow-x-auto pt-4">
                 <table class="table">
                     <thead>
@@ -101,8 +109,8 @@
                             <th class="whitespace-nowrap uppercase">Bonificaciones</th>
                             <th class="whitespace-nowrap uppercase">paquete</th>
                             <th class="whitespace-nowrap uppercase">total Ganado</th>
-                            <th class="whitespace-nowrap uppercase">total Reposicion</th>
-                            <th class="whitespace-nowrap uppercase">Acciones</th>
+                            <th class="whitespace-nowrap uppercase">total Convenio</th>
+                            <th class="whitespace-nowrap uppercase">Reposición</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,10 +120,13 @@
                                 <td class="border-b dark:border-dark-5 text-center uppercase">
                                     {{ $form->contract->person->nombres }} {{ $form->contract->person->paterno }}
                                     {{ $form->contract->person->materno }}</td>
-                                <td class="border-b dark:border-dark-5 text-center">{{ $form->contract->person->ci }} {{ $form->contract->person->expedido }}</td>
-                                <td class="border-b dark:border-dark-5 text-center">{{ $form->fecha_inicio }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">{{ $form->contract->person->ci }}
+                                    {{ $form->contract->person->expedido }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">
+                                    {{ \Carbon\Carbon::parse($form->contract->fecha_inicio)->format('d-m-Y') }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">{{ $form->dias }}</td>
-                                <td class="border-b dark:border-dark-5 text-center">{{ $form->contract->vacancy->salario }}</td>
+                                <td class="border-b dark:border-dark-5 text-center">
+                                    {{ $form->contract->vacancy->salario }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">{{ $form->descuentos }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">{{ $form->bonificaciones }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">
@@ -124,11 +135,25 @@
                                     {{ $form->contract->package->nombre }}
                                 </td>
                                 <td class="border-b dark:border-dark-5 text-center">
-                                   {{ round($form->contract->vacancy->salario / 30 *  $form->dias, 2) }}  Bs
+                                    {{ round(($form->contract->vacancy->salario / 30) * $form->dias, 2) - $form->descuentos + $form->bonificaciones }}
+                                    Bs
                                 </td>
                                 <td class="border-b dark:border-dark-5 text-center">
-                                    {{ round((($form->contract->vacancy->salario / 30) *  $form->dias) * ($form->contract->package->porcentaje / 100), 2) }}  Bs
-                                 </td>
+                                    @if ($form->contract->vacancy->salario > 4000)
+                                        {{ round((4000 / 30) * $form->dias, 2) }} Bs
+                                    @else
+                                        {{ round(($form->contract->vacancy->salario / 30) * $form->dias, 2) }} Bs
+                                    @endif
+                                </td>
+                                <td class="border-b dark:border-dark-5 text-center">
+                                    @if ($form->contract->vacancy->salario > 4000)
+                                        {{ round((4000 / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2) }}
+                                        Bs
+                                    @else
+                                        {{ round(($form->contract->vacancy->salario / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2) }}
+                                        Bs
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

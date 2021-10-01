@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\PetitionExport;
 use App\Models\Contract;
 use App\Models\Form;
 use App\Models\Petition;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Carbon;
 
 class PetitionInstitution extends Component
 {
@@ -17,7 +20,6 @@ class PetitionInstitution extends Component
     public $titulo;
     public $petition_id;
     public $contract_id;
-    public $fechaInicio;
     public $dias;
     public $descuentos;
     public $bonificaciones;
@@ -34,7 +36,7 @@ class PetitionInstitution extends Component
             $this->ventana = 2;
             $this->forms = Form::where('petition_id', $this->petition_id)->get();
         }
-        $petitions = Petition::where('institution_id', $this->institution_id)->where('estado', 'ACTIVO')->paginate(10);
+        $petitions = Petition::where('institution_id', $this->institution_id)->where('estado', 'ACTIVO')->orderBy('id', 'DESC')->paginate(10);
         $contracts = Contract::where('institution_id', $this->institution_id)->where('estado', 'ACTIVO')->get();
         return view('livewire.petition-institution', compact('petitions', 'contracts'));
     }
@@ -63,13 +65,28 @@ class PetitionInstitution extends Component
         $petition = Petition::find($id);
         $petition->estado = "INACTIVO";
         $petition->save();
+
+        if ($petition->forms != null) {
+            foreach($petition->forms as $form)
+            {
+                $contract = Contract::find($form->contract_id)->first();
+                $contract->estado = 'ACTIVO';
+                $contract->save();
+            }
+        }
+    }
+
+    public function sendPetition($id)
+    {
+        $petition = Petition::find($id);
+        $petition->estado = "ENVIADO";
+        $petition->save();
     }
 
     public function addForm()
     {
         $this->validate([
             'contract_id' => 'required',
-            'fechaInicio' => 'required',
             'dias' => 'required|integer',
             'descuentos' => 'required',
             'bonificaciones' => 'required',
@@ -78,7 +95,6 @@ class PetitionInstitution extends Component
         $form = new Form();
         $form->petition_id = $this->petition_id;
         $form->contract_id = $this->contract_id;
-        $form->fecha_inicio = $this->fechaInicio;
         $form->dias = $this->dias;
         $form->descuentos = $this->descuentos;
         $form->bonificaciones = $this->bonificaciones;
@@ -87,10 +103,18 @@ class PetitionInstitution extends Component
         $contract = Contract::find($this->contract_id);
         $contract->estado = "REPOSICION";
         $contract->save();
+
+        $this->clearForm();
     }
 
     public function clearForm()
     {
-        $this->reset(['contract_id', 'fechaInicio', 'dias', 'descuentos', 'bonificaciones']);
+        $this->reset(['contract_id', 'dias', 'descuentos', 'bonificaciones']);
+    }
+
+    public function exportExcel()
+    {
+        $date = Carbon::now()->toDateTimeString();
+        return Excel::download(new PetitionExport($this->forms), "reposicion$date.xlsx");
     }
 }

@@ -13,4 +13,9 @@ class Petition extends Model
     {
         return $this->hasMany(Form::class);
     }
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
 }

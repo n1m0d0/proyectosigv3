@@ -19,6 +19,8 @@ class CreateContractsTable extends Migration
             $table->unsignedBigInteger('vacancy_id');
             $table->unsignedBigInteger('person_id');
             $table->unsignedBigInteger('package_id');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->string('archivo');
             $table->string('codigo');
             $table->string('estado');

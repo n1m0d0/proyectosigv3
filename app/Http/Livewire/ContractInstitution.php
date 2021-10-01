@@ -21,6 +21,8 @@ class ContractInstitution extends Component
     public $archivoContrato;
     public $codigo;
     public $package_id;
+    public $fecha_inicio;
+    public $fecha_fin;
 
     public function render()
     {
@@ -38,6 +40,8 @@ class ContractInstitution extends Component
         $this->validate([
             'payroll_id' => 'required',
             'package_id' => 'required',
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date',
             'archivoContrato' => 'required|mimes:jpg,bmp,png,pdf|max:5120',
             'codigo' => 'required'
         ]);
@@ -54,6 +58,8 @@ class ContractInstitution extends Component
         $contract->vacancy_id = $payroll->vacancy->id;
         $contract->person_id = $payroll->person->id;
         $contract->package_id =  $this->package_id;
+        $contract->fecha_inicio = $this->fecha_inicio;
+        $contract->fecha_fin = $this->fecha_fin;
         $contract->archivo = $this->archivoContrato->store('public');
         $contract->codigo = $this->codigo;
         $contract->estado = "ACTIVO";

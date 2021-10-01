@@ -87,6 +87,14 @@
                     </select>
                 </div>
                 <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Fecha Inicio</label>
+                    <input wire:model='fecha_inicio' type="date" class="form-control">
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <label class="form-label">Fecha Fin</label>
+                    <input wire:model='fecha_fin' type="date" class="form-control">
+                </div>
+                <div class="col-span-12 sm:col-span-3">
                     <label class="form-label">Contrato</label>
                     <input wire:model='archivoContrato' type="file" class="form-control">
                 </div>
