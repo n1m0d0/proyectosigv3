@@ -1,7 +1,7 @@
 <div>
     @if ($ventana == 1)
         <div class="box py-8 px-6 mt-2">
-            <h1 class="text-xl text-gray-900">Lista de Vacancias Pendientes</h1>
+            <h1 class="text-xl text-gray-900">Lista de Convenios Pendientes</h1>
             <div class="overflow-x-auto mt-6">
                 <table class="table">
                     <thead>
