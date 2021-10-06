@@ -81,7 +81,7 @@
                                     {{  \Carbon\Carbon::parse($form->contract->fecha_inicio)->format('d-m-Y') }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">{{ $form->dias }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">
-                                    {{ $form->contract->vacancy->salario }}</td>
+                                    {{ $form->salario }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">{{ $form->descuentos }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">{{ $form->bonificaciones }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">
@@ -90,22 +90,22 @@
                                     {{ $form->contract->package->nombre }}
                                 </td>
                                 <td class="border-b dark:border-dark-5 text-center">
-                                    {{ round(($form->contract->vacancy->salario / 30) * $form->dias, 2) - $form->descuentos + $form->bonificaciones }}
+                                    {{ round(($form->salario / 30) * $form->dias, 2) - $form->descuentos + $form->bonificaciones }}
                                     Bs
                                 </td>
                                 <td class="border-b dark:border-dark-5 text-center">
-                                    @if ($form->contract->vacancy->salario > 4000)
+                                    @if ($form->salario > 4000)
                                         {{ round((4000 / 30) * $form->dias, 2) }} Bs
                                     @else
-                                        {{ round(($form->contract->vacancy->salario / 30) * $form->dias, 2) }} Bs
+                                        {{ round(($form->salario / 30) * $form->dias, 2) }} Bs
                                     @endif
                                 </td>
                                 <td class="border-b dark:border-dark-5 text-center">
-                                    @if ($form->contract->vacancy->salario > 4000)
+                                    @if ($form->salario > 4000)
                                         {{ round((4000 / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2) }}
                                         Bs
                                     @else
-                                        {{ round(($form->contract->vacancy->salario / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2) }}
+                                        {{ round(($form->salario / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2) }}
                                         Bs
                                     @endif
                                 </td>
