@@ -98,6 +98,7 @@
                 <button wire:click='exportExcel' class="btn btn-secondary">
                     <x-feathericon-file-text class="w-4 h-4 mr-1" /> Exportar Excel
                 </button>
+                <a class="btn btn-secondary" href="{{url('report_reposicion/1')}}"> PDF </a>
             </div>
             <div class="overflow-x-auto pt-4">
                 <table class="table">
@@ -107,6 +108,7 @@
                             <th class="whitespace-nowrap uppercase">Nombre del Beneficiario</th>
                             <th class="whitespace-nowrap uppercase">Ci del Beneficiario</th>
                             <th class="whitespace-nowrap uppercase">Fecha inicio de contrato</th>
+                            <th class="whitespace-nowrap uppercase">Fecha fin de contrato</th>
                             <th class="whitespace-nowrap uppercase">dias</th>
                             <th class="whitespace-nowrap uppercase">Salario</th>
                             <th class="whitespace-nowrap uppercase">Descuentos</th>
@@ -128,6 +130,8 @@
                                     {{ $form->contract->person->expedido }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">
                                     {{ \Carbon\Carbon::parse($form->contract->fecha_inicio)->format('d-m-Y') }}</td>
+                                    <td class="border-b dark:border-dark-5 text-center">
+                                    {{ \Carbon\Carbon::parse($form->contract->fecha_fin)->format('d-m-Y') }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">{{ $form->dias }}</td>
                                 <td class="border-b dark:border-dark-5 text-center">
                                     {{ $form->salario }}</td>

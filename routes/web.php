@@ -14,6 +14,7 @@ use App\Http\Controllers\PetitionInstitutionController;
 use App\Http\Controllers\RegisterInstitutionController;
 use App\Http\Controllers\AgreementInstitutionController;
 use App\Http\Controllers\ReplacementInstitutionController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,3 +56,4 @@ Route::get('reporte-persona', [PersonController::class, "index"])->name('report.
 Route::get('adignacion-oficial', [AssignmentOfficialController::class, "index"])->name('assignment.official')->middleware(['auth', 'role:responsable']);
 
 Route::get('solicitud', [PetitionInstitutionController::class, "index"])->name('petition.institution')->middleware(['auth', 'role:empresa']);
+Route::get('report_reposicion/{petition_id}', [ReportController::class, "reposicion"])->name('report.reposicion')->middleware(['auth', 'role:empresa']);
