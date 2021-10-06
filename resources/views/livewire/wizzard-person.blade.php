@@ -118,7 +118,7 @@
                             </div>
                             <div class="col-span-12 sm:col-span-3">
                                 <label class="form-label">Certificado</label>
-                                <input wire:model='archivoHijo' type="file" class="form-control" placeholder="22">
+                                <input wire:model='archivoHijo' type="file" accept=".jpg, .bmp, .png, .pdf" class="form-control" placeholder="22">
                             </div>
                             <div class="col-span-12 sm:col-span-3 pt-6">
                                 <button wire:click='saveHijo' class="btn btn-secondary">Añadir</button>

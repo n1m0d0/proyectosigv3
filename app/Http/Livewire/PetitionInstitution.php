@@ -24,6 +24,7 @@ class PetitionInstitution extends Component
     public $descuentos;
     public $bonificaciones;
     public $forms;
+    public $salario;
 
     public function mount()
     {
@@ -87,6 +88,7 @@ class PetitionInstitution extends Component
     {
         $this->validate([
             'contract_id' => 'required',
+            'salario' => 'required',
             'dias' => 'required|integer',
             'descuentos' => 'required',
             'bonificaciones' => 'required',
@@ -95,6 +97,7 @@ class PetitionInstitution extends Component
         $form = new Form();
         $form->petition_id = $this->petition_id;
         $form->contract_id = $this->contract_id;
+        $form->salario = $this->salario;
         $form->dias = $this->dias;
         $form->descuentos = $this->descuentos;
         $form->bonificaciones = $this->bonificaciones;
@@ -109,7 +112,7 @@ class PetitionInstitution extends Component
 
     public function clearForm()
     {
-        $this->reset(['contract_id', 'dias', 'descuentos', 'bonificaciones']);
+        $this->reset(['contract_id', 'salario', 'dias', 'descuentos', 'bonificaciones']);
     }
 
     public function exportExcel()
