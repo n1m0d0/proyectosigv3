@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\models\User;
+use App\Models\User;
 use App\Models\Society;
 use App\Models\Institution;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+// use Log;
 
 class RegisterInstitutionController extends Controller
 {
@@ -36,7 +37,7 @@ class RegisterInstitutionController extends Controller
         ];
 
         $request->validate($rules);
-
+        // Log::info($request->all());
         DB::beginTransaction();
 
         try {
