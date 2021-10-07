@@ -98,7 +98,7 @@
                 <button wire:click='exportExcel' class="btn btn-secondary">
                     <x-feathericon-file-text class="w-4 h-4 mr-1" /> Exportar Excel
                 </button>
-                <a class="btn btn-secondary" href="{{url('report_reposicion/1')}}"> PDF </a>
+                <a class="btn btn-secondary" target="_blank" href="{{url('report_reposicion/'.$petition_id)}}"> PDF </a>
             </div>
             <div class="overflow-x-auto pt-4">
                 <table class="table">
