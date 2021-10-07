@@ -36,19 +36,19 @@
 <table class="table-info align-top no-padding no-margins border w-40">
     <tr>
         <td class="text-center bg-grey-darker text-xs text-white w-50 ">Nombre de la empresa:</td>
-        <td class="text-xs uppercase">  asda sasdas</td>
+        <td class="text-xs uppercase">  {{$petition->institution->razon_social}}</td>
     </tr>
     <tr>
         <td  class="text-center bg-grey-darker text-xs text-white">NIT de la empresa:</td>
-        <td class="text-xs uppercase"> asdasd </td>
+        <td class="text-xs uppercase"> {{$petition->institution->nit}} </td>
     </tr>
     <tr>
         <td  class="text-center bg-grey-darker text-xs text-white">Periodo de Reposicion:</td>
-        <td class="text-xs uppercase"> asdasd </td>
+        <td class="text-xs uppercase">  </td>
     </tr>
     <tr>
         <td  class="text-center bg-grey-darker text-xs text-white">Beneficiario SIGEP:</td>
-        <td class="text-xs uppercase"> asdasd </td>
+        <td class="text-xs uppercase">  </td>
     </tr>
 
 </table>
@@ -102,29 +102,37 @@
     </thead>
     <tbody>
 
-        {{-- @foreach ($forms as $item)
+        @foreach ($forms as $index => $form)
             <tr class="text-sm">
-                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $count++ }}</td>
-                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{  Carbon\Carbon::parse($item->created_at, 'UTC')->format('d-m-Y') }}</td>
-                @if($item->article_income_item_id!=null and $item->type == 'Entrada')
-                    <td class="text-center text-xxs font-bold px-5 py-3">{{ $item->type .' (NIº'.$item->article_income_item->article_income->correlative.')' }}</td>
-                @else
-                    <td class="text-center text-xxs font-bold px-5 py-3">{{ $item->type .' (NSº '.$item->article_request_item->article_request->correlative_out.')' }}</td>
-                @endif
-
-                @if($item->article_income_item_id!=null and $item->type == 'Entrada')
-                    <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $item->article_income_item->quantity??'' }}</td>
-                @else
-                    <td></td>
-                @endif
-                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $item->quantity_desc??'' }}</td>
-                @if($item->type == 'Entrada')
-                    <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $quantity += $item->article_income_item->quantity }}</td>
-                @else
-                    <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $quantity -= number_format((float)$item->quantity_desc, 2, '.', '') }}</td>
-                @endif
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $index++ }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $form->contract->person->nombres }} {{ $form->contract->person->paterno }} {{ $form->contract->person->materno }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $form->contract->person->ci  }} {{ $form->contract->person->expedido }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{  Carbon\Carbon::parse($form->contract->fecha_inicio, 'UTC')->format('d-m-Y') }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $form->dias }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $form->salario }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $form->descuentos }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $form->bonificaciones }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">  </td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $form->contract->package->porcentaje }}%  {{ $form->contract->package->nombre }}</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ round(($form->salario / 30) * $form->dias, 2) - $form->descuentos + $form->bonificaciones }} Bs</td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3"> 
+                    @if ($form->salario > 4000)
+                        {{ round((4000 / 30) * $form->dias, 2) }} Bs
+                    @else
+                        {{ round(($form->salario / 30) * $form->dias, 2) }} Bs
+                    @endif
+                </td>
+                <td class="text-center text-xxs uppercase font-bold px-5 py-3">  
+                    @if ($form->salario > 4000)
+                        {{ round((4000 / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2) }}
+                        Bs
+                    @else
+                        {{ round(($form->salario / 30) * $form->dias * ($form->contract->package->porcentaje / 100), 2) }}
+                        Bs
+                    @endif
+                </td>
             </tr>
-        @endforeach --}}
+        @endforeach
     </tbody>
 </table>
 <br>
