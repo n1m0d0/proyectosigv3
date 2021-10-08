@@ -17,7 +17,7 @@ class ReportController extends Controller
         $forms = Form::where('petition_id', $petition_id)->get();
         $title = "ANEXO 2: CUADRO DETALLE DE SOLICITUD DE REPOSICION DE SALARIOS";
         $pdf = PDF::loadView('reports.reposicion',compact('title','forms','petition'));
-        $pdf->setPaper('a4', 'landscape')->setWarnings(false);
+        $pdf->setPaper('letter', 'landscape')->setWarnings(false);
     return $pdf->stream('reposicion.pdf');
     }
 }
