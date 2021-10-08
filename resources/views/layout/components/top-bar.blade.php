@@ -1,7 +1,10 @@
 <div class="top-bar">
     <!-- BEGIN: Breadcrumb -->
-    <div class="-intro-x breadcrumb mr-auto hidden sm:flex"> <a href="">Application</a> <i data-feather="chevron-right"
-            class="breadcrumb__icon"></i> <a href="" class="breadcrumb--active">Dashboard</a> </div>
+    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
+       
+        <a href="{{url('/')}}">Inicio</a> <i data-feather="chevron-right"     class="breadcrumb__icon"></i> <a href="" class="breadcrumb--active"></a>
+     </div>
+     
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Notifications -->
     <div class="intro-x dropdown mr-auto sm:mr-6">
