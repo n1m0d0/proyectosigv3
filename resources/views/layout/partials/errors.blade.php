@@ -1,4 +1,5 @@
 @if ($errors->any())
+    {{-- <input type="text" id="error_message" data="{{ json_encode($errors->all()) }}"  value="{{json_encode($errors->all())}}"> --}}
     @foreach ($errors->all() as $error)
         <div class="alert alert-danger alert-dismissible show flex items-center mb-2" role="alert">
             <x-feathericon-alert-octagon class="w-6 h-6 mr-2" />
