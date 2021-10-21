@@ -32,9 +32,9 @@
     @livewireScripts
 @endsection
 @push('script')
-<script type="text/javascript">
-    window.livewire.on('hola', () => {
-        console.log("prueba", "hola prueba")
-    });
+<script>
+    document.addEventListener('livewire:load', function () {
+      console.log('cargando js del liveware')
+    })
 </script>
 @endpush

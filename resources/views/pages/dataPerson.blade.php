@@ -30,4 +30,14 @@
 
 @section('script')
     @livewireScripts
+    @if ($errors->any())
+    <script>
+        document.addEventListener('livewire:load', function () {
+            // Your JS here.
+            
+            console.log({{json_encode($errors->all())}})
+            
+        })
+    </script>
+    @endif
 @endsection

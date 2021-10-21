@@ -187,6 +187,7 @@ class WizzardPerson extends Component
 
     public function updatePerson()
     {
+        // $this->dispatchBrowserEvent('alerta');
         if ($this->discapacidad) {
             $person = Person::find($this->person_id);
             if($person->certificado_discapacidad != null){
@@ -234,8 +235,8 @@ class WizzardPerson extends Component
                 'discapacidad' => 'required'
             ]);
         }
-
-        /*$this->validate([
+        
+        $this->validate([
             'ci' => 'required',
             'expedido' => 'required',
             'genero' => 'required',
@@ -264,37 +265,37 @@ class WizzardPerson extends Component
 
         session()->flash('message', 'Los datos se guardaron correctamente.');
 
-        $this->step2();*/
+        $this->step2();
 
-        $response = Http::post('https://sig.planificacion.gob.bo:8080/pge/v1/soapapiservicioexterno/consultadatopersonacertificacion', [
-            'numeroDocumento' => $this->ci
-        ])->throw()->json();
+        // $response = Http::post('https://sig.planificacion.gob.bo:8080/pge/v1/soapapiservicioexterno/consultadatopersonacertificacion', [
+        //     'numeroDocumento' => $this->ci
+        // ])->throw()->json();
 
-        if ($response["consultaDatoPersonaCertificacionResult"]["value"]["codigoRespuesta"] == 2) {
-            $person = Person::find($this->person_id);
-            $person->ci = $this->ci;
-            $person->expedido = $this->expedido;
-            $person->genero = $this->genero;
-            $person->edad = $this->edad;
-            $person->nacimiento = $this->nacimiento;
-            $person->department_id = $this->departamento;
-            $person->direccion = $this->direccion;
-            $person->hijos = $this->hijos;
-            $person->estado_civil = $this->estadoCivil;
-            $person->telefono = $this->telefonoPersona;
-            $person->step = 2;
-            $person->validacion_segip = 1;
-            $person->save();
+        // if ($response["consultaDatoPersonaCertificacionResult"]["value"]["codigoRespuesta"] == 2) {
+        //     $person = Person::find($this->person_id);
+        //     $person->ci = $this->ci;
+        //     $person->expedido = $this->expedido;
+        //     $person->genero = $this->genero;
+        //     $person->edad = $this->edad;
+        //     $person->nacimiento = $this->nacimiento;
+        //     $person->department_id = $this->departamento;
+        //     $person->direccion = $this->direccion;
+        //     $person->hijos = $this->hijos;
+        //     $person->estado_civil = $this->estadoCivil;
+        //     $person->telefono = $this->telefonoPersona;
+        //     $person->step = 2;
+        //     $person->validacion_segip = 1;
+        //     $person->save();
 
-            session()->flash('message', 'Los datos se guardaron correctamente.');
+        //     session()->flash('message', 'Los datos se guardaron correctamente.');
 
-            $this->step2();
-        } else {
-            $person = Person::find($this->person_id);
-            $person->validacion_segip = 0;
-            $person->save();
-            session()->flash('alert', 'El carnet de identidad no es valido');
-        }
+        //     $this->step2();
+        // } else {
+        //     $person = Person::find($this->person_id);
+        //     $person->validacion_segip = 0;
+        //     $person->save();
+        //     session()->flash('alert', 'El carnet de identidad no es valido');
+        // }
     }
 
     public function updateDiscapacidad()
